@@ -5,6 +5,7 @@
 #include <QDialog>
 #include <QProgressBar>
 #include <QFuture>
+#include <unordered_set>
 
 class QPushButton;
 class QLineEdit;

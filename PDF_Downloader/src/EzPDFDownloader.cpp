@@ -78,7 +78,7 @@ EzPDFDownloader::EzPDFDownloader(QWidget* parent)
 
     connect(this, &EzPDFDownloader::progressUpdated, this, &EzPDFDownloader::onProgressUpdate);
 
-    QThreadPool::globalInstance()->setMaxThreadCount(64);
+    QThreadPool::globalInstance()->setMaxThreadCount(20);
 
     browseExcelBtn->setEnabled(false);
     startBtn->setEnabled(false);

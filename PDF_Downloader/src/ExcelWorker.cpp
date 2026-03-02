@@ -68,7 +68,7 @@ std::vector<PDF_Downloader::DownloadTask> ExcelWorker::loadTasks(std::string exc
 
 	std::vector<PDF_Downloader::DownloadTask> AllDownloadTasks;
 	AllDownloadTasks.reserve(lastRow);
-	for (uint64_t row = 2; row < 402; row++)
+	for (uint64_t row = 2; row < lastRow; row++)
 	{
 		auto brCell = wks.cell(row, brnumCol);
 		auto urlCell = wks.cell(row, urlCol);

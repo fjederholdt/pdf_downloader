@@ -73,7 +73,7 @@ namespace PDF_Downloader
 			if (fs::exists(tempPath))
 				fs::remove(tempPath);
 
-			return { std::string(curl_easy_strerror(res)), httpCode, false };
+			return { std::string(curl_easy_strerror(res)), static_cast<int>(httpCode), false };
 		}
 
 		std::ifstream check(tempPath, std::ios::binary);
@@ -91,7 +91,7 @@ namespace PDF_Downloader
 		// Rename temp file to final .pdf
 		fs::rename(tempPath, filename);
 
-		return { "Success", httpCode, true };
+		return { "Success", static_cast<int>(httpCode), true };
 	}
 
 	class CurlDownloader
