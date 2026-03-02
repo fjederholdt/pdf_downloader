@@ -6,9 +6,9 @@ using namespace OpenXLSX;
 
 void ExcelWorker::process()
 {
-    try
-    {
-        auto tasks = loadTasks(m_filePath.toStdString(), m_brNumColName.toStdString(), m_pdfurlColName.toStdString());
+	try
+	{
+		auto tasks = loadTasks(m_filePath.toStdString(), m_brNumColName.toStdString(), m_pdfurlColName.toStdString());
 		if (tasks.empty() == true)
 		{
 			emit errorOccurred(m_errorMessage);
@@ -17,13 +17,13 @@ void ExcelWorker::process()
 		{
 			emit tasksReady(std::move(tasks));
 		}
-    }
-    catch (const std::exception& ex)
-    {
-        emit errorOccurred(ex.what());
-    }
+	}
+	catch (const std::exception& ex)
+	{
+		emit errorOccurred(ex.what());
+	}
 
-    emit finished();
+	emit finished();
 }
 
 std::vector<PDF_Downloader::DownloadTask> ExcelWorker::loadTasks(std::string excelFile, std::string brNumColName, std::string pdfColName)
@@ -68,42 +68,32 @@ std::vector<PDF_Downloader::DownloadTask> ExcelWorker::loadTasks(std::string exc
 
 	std::vector<PDF_Downloader::DownloadTask> AllDownloadTasks;
 	AllDownloadTasks.reserve(lastRow);
-	for (uint64_t row = 2; row < lastRow; row++)
+	for (auto& row : wks.rows())
 	{
-		auto brCell = wks.cell(row, brnumCol);
-		auto urlCell = wks.cell(row, urlCol);
+		auto brIt = row.cells().begin();
+		std::advance(brIt, brnumCol - 1);
 
-		// Check if cell is empty
-		if (urlCell.value().type() == XLValueType::Empty)
+		auto urlIt = row.cells().begin();
+		std::advance(urlIt, urlCol - 1);
+
+		std::string brNumber = brIt->value().get<std::string>();
+		std::string url = urlIt->value().get<std::string>();
+
+		if (url.empty() == true)
 		{
-			if (brCell.value().type() == XLValueType::Empty)
-			{
-				AllDownloadTasks.push_back({ "empty","empty", { "BR and url are empty", 0, false } });
-			}
-			else
-			{
-				AllDownloadTasks.push_back({ brCell.value().get<std::string>(), "empty", { "Url is empty", 0, false } });
-			}
+			AllDownloadTasks.push_back({ brNumber, "", { "Url is empty", 0, false } });
+			continue;
+		}
+		else if ((url.substr(0, 4) != "http") || (url.substr(url.length() - 3) != "pdf"))
+		{
+			AllDownloadTasks.push_back({ brNumber, url, { "Url is not a http or .pdf", 0, false } });
+			continue;
 		}
 		else
 		{
-			std::string url = urlCell.value().get<std::string>();
-			std::string brNumber = brCell.value().get<std::string>();
-			if (url.empty() == true)
-			{
-				AllDownloadTasks.push_back({ brNumber, "", { "Url is empty", 0, false } });
-				continue;
-			}
-			else if ((url.substr(0, 4) != "http") || (url.substr(url.length() - 3) != "pdf"))
-			{
-				AllDownloadTasks.push_back({ brNumber, url, { "Url is not a http or .pdf", 0, false } });
-				continue;
-			}
-			else
-			{
-				AllDownloadTasks.push_back({ brNumber, url, { "Success", 0, true } });
-			}
+			AllDownloadTasks.push_back({ brNumber, url, { "Success", 0, true } });
 		}
+
 	}
 
 	doc.close();
