@@ -1,21 +1,21 @@
-#Introduction
+# Introduction
 
 PDF Downloader is a Qt-based desktop application that downloads PDF files in bulk using data from an Excel file.
 
-##The application:
+## The application:
 * Loads tasks from an Excel sheet 
 * Extracts BR numbers and PDF URLs
 * Downloads PDFs concurrently using a thread pool
 * Tracks progress with a GUI progress bar
 * Logs download results (success/error) to a CSV file
 
-##It is built with:
+## It is built with:
 * Qt (GUI + concurrency)
 * CMake (build system)
 * vcpkg (dependency management)
 * libcurl (HTTP downloads)
 
-#Setup
+# Setup
 1. Clone the Repository
 ```
 git clone https://github.com/your-username/pdf_downloader.git
@@ -48,7 +48,7 @@ cmake --build build --config Release
 After building, the executable will be located in:
 build/Release/
 
-#Use
+# Use
 
 Launch the application.
 Click Browse Excel and select the Excel file containing:
