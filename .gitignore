@@ -13,10 +13,12 @@ CMakeUserPresets.json
 .vs
 out
 CMakePresets.json
-.github
 build
 vcpkg_installed
 downloaded pdfs
+*.py
+Ny mappe
+
 # CLion
 #  JetBrains specific template is maintained in a separate JetBrains.gitignore that can
 #  be found at https://github.com/github/gitignore/blob/main/Global/JetBrains.gitignore

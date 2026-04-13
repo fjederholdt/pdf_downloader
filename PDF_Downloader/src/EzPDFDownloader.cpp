@@ -21,7 +21,7 @@ EzPDFDownloader::EzPDFDownloader(QWidget* parent)
 {
     outputPathEdit = new QLineEdit(this);
     excelPathEdit = new QLineEdit(this);
-
+    
     browseOutputBtn = new QPushButton("Browse Output Folder", this);
     browseExcelBtn = new QPushButton("Browse Excel", this);
 
@@ -50,7 +50,7 @@ EzPDFDownloader::EzPDFDownloader(QWidget* parent)
     retryLayout = new QHBoxLayout(layout->widget());
     
     retryCheckBox->setChecked(true);
-    retryLabel->setText("Retry download three times");
+    retryLabel->setText("Retry download two times");
     retryLayout->addWidget(retryCheckBox);
     retryLayout->addWidget(retryLabel);
 
@@ -78,7 +78,7 @@ EzPDFDownloader::EzPDFDownloader(QWidget* parent)
 
     connect(this, &EzPDFDownloader::progressUpdated, this, &EzPDFDownloader::onProgressUpdate);
 
-    QThreadPool::globalInstance()->setMaxThreadCount(20);
+    QThreadPool::globalInstance()->setMaxThreadCount(256);
 
     browseExcelBtn->setEnabled(false);
     startBtn->setEnabled(false);
@@ -108,6 +108,8 @@ void EzPDFDownloader::browseOutput()
     QString dir = QFileDialog::getExistingDirectory(
         this,
         "Select Output Directory"
+        "",
+        "PDF Files (*.pdf)"
     );
 
     if (!dir.isEmpty())

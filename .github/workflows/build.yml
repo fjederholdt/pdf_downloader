@@ -1,0 +1,49 @@
+name: Build Qt App (Windows)
+on:
+  push:
+  pull_request:
+jobs:
+  build-windows:
+    runs-on: windows-latest
+
+    steps:
+    - name: Checkout repo
+      uses: actions/checkout@v4
+
+    - name: Setup MSVC
+      uses: ilammy/msvc-dev-cmd@v1
+    
+    - name: Install Qt6
+      uses: jurplel/install-qt-action@v4
+      with:
+        version: 6.10.2
+        host: windows
+        target: desktop
+        arch: win64_msvc2022_64
+
+    - name: Setup vcpkg
+      uses: lukka/run-vcpkg@v11
+
+    - name: Install dependencies
+      run: vcpkg install
+
+    - name: Configure CMake
+      run: |
+        cmake -B build -S PDF-Downloader `
+          -DCMAKE_TOOLCHAIN_FILE=${{ env.VCPKG_ROOT }}/scripts/buildsystems/vcpkg.cmake `
+          -DVCPKG_TARGET_TRIPLET=x64-windows `
+          -DCMAKE_PREFIX_PATH="$env:Qt6_DIR"
+
+    - name: Build
+      run: cmake --build build --config Release
+
+    - name: Deploy Qt (windeployqt)
+      run: |
+        cd build/Release
+        windeployqt PDF-Downloader.exe
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v4
+      with:
+        name: PDF-Downloader-Windows
+        path: build/Release

@@ -14,6 +14,10 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project ("PDF_Downloader")
 
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET PDF_Downloader PROPERTY CXX_STANDARD 20)
+endif()
+
 find_package(Qt6 REQUIRED COMPONENTS Widgets Concurrent)
 find_package(CURL CONFIG REQUIRED)
 find_package(OpenXLSX CONFIG REQUIRED)
@@ -23,7 +27,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_AUTORCC ON)
 
 # Add source to this project's executable.
-add_executable (PDF_Downloader 
+add_executable (PDF_Downloader WIN32
 	"src/main.cpp" 
 	"src/EzPDFDownloader.cpp" 
 	"src/ExcelWorker.cpp" 
@@ -41,9 +45,5 @@ target_link_libraries(PDF_Downloader
 	OpenXLSX::OpenXLSX 
 	CURL::libcurl
 )
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET PDF_Downloader PROPERTY CXX_STANDARD 20)
-endif()
 
 # TODO: Add tests and install targets if needed.

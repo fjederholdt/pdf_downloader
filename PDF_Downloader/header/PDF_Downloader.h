@@ -50,7 +50,7 @@ namespace PDF_Downloader
 		}
 		
 		curl_easy_setopt(curl, CURLOPT_URL, url.c_str());
-		curl_easy_setopt(curl, CURLOPT_USERAGENT, "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/98.0.4758.102 Safari/537.36");
+		curl_easy_setopt(curl, CURLOPT_USERAGENT, "Safari/537.36");
 		curl_easy_setopt(curl, CURLOPT_AUTOREFERER, 1L);
 		curl_easy_setopt(curl, CURLOPT_COOKIEFILE, "");
 		curl_easy_setopt(curl, CURLOPT_COOKIEJAR, "cookies.txt");
@@ -97,7 +97,7 @@ namespace PDF_Downloader
 	class CurlDownloader
 	{
 	public:
-		DownloadStatus download(const DownloadTask& task, std::string outputPath, bool retryThreeTimes)
+		DownloadStatus download(const DownloadTask& task, std::string outputPath, bool retryTwoTimes)
 		{
 			std::string pathAndFilename = outputPath + "/" + task.brNumber + ".pdf";
 			DownloadStatus status = PDF_Downloader::download_pdf(task.url, pathAndFilename);
@@ -105,7 +105,7 @@ namespace PDF_Downloader
 			{
 				return status;
 			}
-			else if ((retryThreeTimes == true) && (status.httpCode == 200))
+			else if ((retryTwoTimes == true) && (status.httpCode == 200))
 			{
 				for (size_t i = 0; i < 2; i++)
 				{
@@ -121,13 +121,13 @@ namespace PDF_Downloader
 		};
 	};
 
-	static DownloadStatus downloadTaskWorker(const DownloadTask& task, std::string outputPath, bool retryThreeTimes)
+	static DownloadStatus downloadTaskWorker(const DownloadTask& task, std::string outputPath, bool retryTwoTimes)
 	{
 		CurlDownloader downloader;
 		if (task.status.success == false)
 		{
 			return { "BR number: " + task.brNumber + " Failed downloading because " + task.status.errorMessage, task.status.httpCode, false };
 		}
-		return downloader.download(task, outputPath, retryThreeTimes);
+		return downloader.download(task, outputPath, retryTwoTimes);
 	}
 }

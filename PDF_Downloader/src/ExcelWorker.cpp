@@ -77,6 +77,10 @@ std::vector<PDF_Downloader::DownloadTask> ExcelWorker::loadTasks(std::string exc
 		std::advance(urlIt, urlCol - 1);
 
 		std::string brNumber = brIt->value().get<std::string>();
+		if (brNumber == brNumColName)
+		{
+			continue;
+		}
 		std::string url = urlIt->value().get<std::string>();
 
 		if (url.empty() == true)
