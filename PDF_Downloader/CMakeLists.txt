@@ -9,14 +9,9 @@ if (POLICY CMP0141)
   set(CMAKE_MSVC_DEBUG_INFORMATION_FORMAT "$<IF:$<AND:$<C_COMPILER_ID:MSVC>,$<CXX_COMPILER_ID:MSVC>>,$<$<CONFIG:Debug,RelWithDebInfo>:EditAndContinue>,$<$<CONFIG:Debug,RelWithDebInfo>:ProgramDatabase>>")
 endif()
 
-set(CMAKE_CXX_STANDARD 20)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 project ("PDF_Downloader")
-
-if (CMAKE_VERSION VERSION_GREATER 3.12)
-  set_property(TARGET PDF_Downloader PROPERTY CXX_STANDARD 20)
-endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Concurrent)
 find_package(CURL CONFIG REQUIRED)
@@ -35,6 +30,10 @@ add_executable (PDF_Downloader WIN32
 	"header/ExcelWorker.h" 
 	"header/PDF_Downloader.h"
 )
+
+if (CMAKE_VERSION VERSION_GREATER 3.12)
+  set_property(TARGET PDF_Downloader PROPERTY CXX_STANDARD 20)
+endif()
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/header)
 
