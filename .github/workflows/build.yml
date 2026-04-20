@@ -5,6 +5,9 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
+    
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}\vcpkg
 
     steps:
     - name: Checkout repo
@@ -21,11 +24,21 @@ jobs:
         target: desktop
         arch: win64_msvc2022_64
 
-    - name: Setup vcpkg
-      uses: lukka/run-vcpkg@latest
+    - name: Clone vcpkg
+      run: git clone https://github.com/microsoft/vcpkg.git
 
-    - name: Install dependencies
-      run: vcpkg install --triplet x64-windows --manifest-root .
+    - name: Bootstrap vcpkg
+      run: ./vcpkg/bootstrap-vcpkg.bat
+      
+    - name: Cache vcpkg
+      uses: actions/cache@v4
+      with:
+        path: |
+          vcpkg_installed `
+          C:\Users\runneradmin\AppData\Local\vcpkg\archives
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('PDF_Downloader/vcpkg.json') }}
+        restore-keys: |
+          ${{ runner.os }}-vcpkg-
 
     - name: Configure CMake
       run: |

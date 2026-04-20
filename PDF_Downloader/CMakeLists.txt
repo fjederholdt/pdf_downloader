@@ -14,7 +14,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 project ("PDF_Downloader")
 
 find_package(Qt6 REQUIRED COMPONENTS Widgets Concurrent)
-find_package(CURL CONFIG REQUIRED)
+find_package(CURL REQUIRED)
 find_package(OpenXLSX CONFIG REQUIRED)
 
 set(CMAKE_AUTOMOC ON)
