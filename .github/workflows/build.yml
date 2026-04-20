@@ -22,7 +22,7 @@ jobs:
         arch: win64_msvc2022_64
 
     - name: Setup vcpkg
-      uses: lukka/run-vcpkg@v11
+      uses: lukka/run-vcpkg@v12
 
     - name: Install dependencies
       run: vcpkg install --triplet x64-windows --manifest-root .
