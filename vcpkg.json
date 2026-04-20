@@ -1,6 +1,8 @@
 {
   "$schema": "https://raw.githubusercontent.com/microsoft/vcpkg-tool/main/docs/vcpkg.schema.json",
   "builtin-baseline": "05442024c3fda64320bd25d2251cc9807b84fb6f",
+  "name": "PDF_Downloader",
+  "version": "1.0.0",
   "dependencies": [
     "curl",
     "openxlsx"

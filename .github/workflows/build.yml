@@ -25,7 +25,7 @@ jobs:
       uses: lukka/run-vcpkg@v11
 
     - name: Install dependencies
-      run: vcpkg install --triplet x64-windows
+      run: vcpkg install --triplet x64-windows --manifest-root .
 
     - name: Configure CMake
       run: |
