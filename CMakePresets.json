@@ -3,14 +3,15 @@
   "configurePresets": [
     {
       "name": "default",
-      "generator": "Visual Studio 18 2026",
+      "generator": "Visual Studio 17 2022",
       "binaryDir": "build",
       "installDir": "install",
       "cacheVariables": {
         "CMAKE_C_COMPILER": "cl.exe",
         "CMAKE_CXX_COMPILER": "cl.exe",
         "CMAKE_TOOLCHAIN_FILE": "C:/vcpkg/scripts/buildsystems/vcpkg.cmake",
-		"VCPKG_TARGET_TRIPLET": "x64-windows"
+		"VCPKG_TARGET_TRIPLET": "x64-windows",
+		"CMAKE_PREFIX_PATH": "$env:Qt6_DIR"
       },
       "condition": {
         "type": "equals",
