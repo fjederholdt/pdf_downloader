@@ -5,9 +5,6 @@ on:
 jobs:
   build-windows:
     runs-on: windows-latest
-    
-    env:
-      VCPKG_ROOT: ${{ github.workspace }}\vcpkg
 
     steps:
     - name: Checkout repo
@@ -36,15 +33,12 @@ jobs:
         path: |
           vcpkg_installed `
           C:\Users\runneradmin\AppData\Local\vcpkg\archives
-        key: ${{ runner.os }}-vcpkg-${{ hashFiles('PDF_Downloader/vcpkg.json') }}
+        key: ${{ runner.os }}-vcpkg-${{ hashFiles('vcpkg.json') }}
         restore-keys: |
           ${{ runner.os }}-vcpkg-
 
     - name: Configure CMake
-      run: |
-        cmake -B build -S PDF_Downloader `
-          -DVCPKG_TARGET_TRIPLET=x64-windows `
-          -DCMAKE_PREFIX_PATH="$env:Qt6_DIR"
+      run: cmake --preset default -DCMAKE_PREFIX_PATH="$env:Qt6_DIR"
 
     - name: Build
       run: cmake --build build --config Release
