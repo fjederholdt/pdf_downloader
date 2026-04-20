@@ -12,7 +12,6 @@ _deps
 CMakeUserPresets.json
 .vs
 out
-CMakePresets.json
 build
 vcpkg_installed
 downloaded pdfs
